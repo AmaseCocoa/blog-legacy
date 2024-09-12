@@ -28,9 +28,13 @@ pygmentsCodefences = true
 #    category = ""
 #    categoryId = ""
 
+[params.CloudflareAnalytics]
+    enabled = true
+    token = "845d664e1141484b81aff855dfe2cb98"
+
 [params.comment]
-    repo = ""
-    repoId = ""
-    category = ""
-    categoryId = ""
+    repo = "AmaseCocoa/blog"
+    repoId = "R_kgDOMKVXTA"
+    category = "Announcements"
+    categoryId = "DIC_kwDOMKVXTM4Chxaq"
     lang = "ja"
