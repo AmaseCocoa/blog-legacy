@@ -23,9 +23,8 @@ jobs:
 
       - name: Build
         run: |
-          hugo
-          npx pagefind@latest --site public --glob="{posts}/*/*.html" --output-path="static/pagefind"
           hugo --minify
+          npx pagefind@latest --site public --glob="{posts}/*/*.html" --output-path="public/pagefind"
 
       - run: npx netlify-cli deploy --dir=./public
         env:
