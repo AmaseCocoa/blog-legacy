@@ -1,7 +1,23 @@
+{{ define "Title" }}{{ .Title }}{{ end }}
+
+{{ define "og:type" }}article{{ end }}
+
+{{ define "head" }}
+  <meta property="description" content="{{ .Summary }}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="{{ .Title }}" />
+  <meta property="og:description" content="{{ .Summary }}" />
+  <meta property="og:site_name" content="{{ .Site.Title }}" />
+  {{ if .Params.image }}
+    <meta property="og:image" content="{{ .Params.image }}" />
+  {{ end }}
+  <meta name="twitter:card" content="summary_large_image" />
+{{ end }}
+
 {{ define "main" }}
 <div class="flex">
   <div class="overflow-hidden flex-1 p-6">
-    <article class="bg-white rounded-lg shadow-md overflow-hidden p-6 flex-1">
+    <article class="bg-white rounded-lg shadow-md overflow-hidden p-6 flex-1" data-pagefind-body>
       <h1 class="text-2xl font-bold mb-4 text-center article-title">{{ .Title }}</h1>
       {{ if .Params.image }}
       <div id="gallery" class="mb-6">
@@ -10,9 +26,14 @@
         </a>
       </div>
       {{ end }}
-      <div class="text-gray-500 text-right"><i class="ri-time-line mr-1"></i>{{ .Date.Format "2006/01/02 15:04" }} <i
-          class="ri-reset-right-line mr-1"></i>{{ .Lastmod.Format "2006/01/02 15:04" }}</div>
-      <br>
+      <div class="text-gray-500 text-right">
+        <i class="ri-time-line mr-1"></i>
+        {{ if eq (.Date.Format "2006/01/02 15:04") (.Lastmod.Format "2006/01/02 15:04") }}
+          {{ .Date.Format "2006/01/02 15:04" }}
+        {{ else }}
+          {{ .Date.Format "2006/01/02 15:04" }} <i class="ri-reset-right-line mr-1"></i>{{ .Lastmod.Format "2006/01/02 15:04" }}
+        {{ end }}
+      </div>
       <div class="content">
         {{ .Content }}
       </div>
@@ -38,13 +59,13 @@
         {{ end }}
       </div>
     </article>
-    <div class="sharebutton p-4 flex flex-col items-center bg-white rounded-lg shadow-md overflow-hidden mt-8">
+    <div class="sharebutton p-4 flex flex-col items-center bg-white rounded-lg shadow-md overflow-hidden mt-8" data-pagefind-ignore>
       {{ partial "share.html" . }}
     </div>
 
     {{ $related := .Site.RegularPages.Related . | first 9 }}
     {{ if gt (len $related) 1 }}
-    <div class="bg-white rounded-lg shadow-md overflow-hidden p-6 mt-6">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden p-6 mt-6" data-pagefind-ignore>
       <h2 class="text-center text-xl font-bold mb-2">関連記事</h2>
       {{ with $related }}
       <ul class="">
@@ -71,12 +92,12 @@
     {{ end }}
 
     {{ if .Site.Params.enableGiscus }}
-    <div class="bg-white rounded-lg shadow-md p-4 mb-4 mt-6">
+    <div class="bg-white rounded-lg shadow-md p-4 mb-4 mt-6" data-pagefind-ignore>
       {{ if not false }} <!-- if not hugo.IsServer -->
       <div class="giscus"></div>
       <script src="https://giscus.app/client.js" data-repo="{{ .Site.Params.comment.repo }}"
         data-repo-id="{{ .Site.Params.comment.repoId }}" data-category="{{ .Site.Params.comment.category }}"
-        data-category-id="{{ .Site.Params.comment.categoryId }}" data-mapping="title" data-strict="0"
+        data-category-id="{{ .Site.Params.comment.categoryId }}" data-mapping="og:title" data-strict="0"
         data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light"
         data-lang="{{ .Site.Params.comment.theme }}" data-loading="lazy" crossorigin="anonymous" async>
         </script>
@@ -87,7 +108,7 @@
     {{ end }}
   </div>
 
-  <aside class="ml-6 w-1/4">
+  <aside class="ml-6 w-1/4" data-pagefind-ignore>
     {{ $authors := .Param "authors" }}
     {{ if $authors }}
     {{ $authorCount := len $authors }}

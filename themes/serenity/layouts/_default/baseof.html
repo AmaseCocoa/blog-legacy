@@ -1,20 +1,39 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="{{ .Site.LanguagePrefix }}">
 
-<head>
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# {{ block "og:type" . }}{{ end }}: http://ogp.me/ns/website#">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Title }} - {{ .Site.Title }}</title>
+    <title>{{ block "Title" . }}{{ with .Params.slug }}{{ . | urlize }}{{ else }}{{ .Title | urlize }}{{ end }}{{ end }} - {{ .Site.Title }}</title>
+    <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+    <script src="/pagefind/pagefind-ui.js"></script>
     <link rel="stylesheet" href="/css/highlight.css">
     <link rel="stylesheet" href="/css/custom.css">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/tailwind.css">
     <link rel="stylesheet" href="/webpack/icons.css">
+
+    <meta property="og:url" content="{{ .RelPermalink | absURL }}" />
+
+    {{ block "head" . }}{{ end }}
+
+    {{ if .Site.Params.CloudflareAnalytics.enabled }}
+        <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;: &quot;{{ .Site.Params.CloudflareAnalytics.token }}&quot;}"></script>
+    {{ end }}
+    {{ if .Site.Config.Services.GoogleAnalytics.ID }}
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ .Site.Config.Services.GoogleAnalytics.ID }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '{{ .Site.Config.Services.GoogleAnalytics.ID }}');
+        </script>
+    {{ end }}
 </head>
 
 <body class="bg-gray-100 text-gray-900" data-barba="wrapper">
     {{ partial "header.html" . }}
-    <main class="container mx-auto px-4 py-8" data-barba="container" data-barba-namespace="{{ block " barbaNamespace" .
+    <main class="container mx-auto px-4 py-8" data-barba="container" data-barba-namespace="{{ block "barbaNamespace" .
         }}{{ with .Params.slug }}{{ . | urlize }}{{ else }}{{ .Title | urlize }}{{ end }}{{ end }}">
         {{ block "main" . }}{{ end }}
     </main>

@@ -1,8 +1,32 @@
+{{ define "Title" }}
+{{ if eq .Type "categories" }}
+カテゴリ「{{ .Data.Term }}」の記事一覧
+{{ else if eq .Type "tags" }}
+タグ「{{ .Data.Term }}」の記事一覧
+{{ end }}
+{{ end }}
+
+{{ define "og:type" }}article{{ end }}
+
+{{ define "head" }}
+    <meta property="description" content="{{ if eq .Type "categories" }}カテゴリ「{{ .Data.Term }}」の記事一覧{{ else if eq .Type "tags" }}タグ「{{ .Data.Term }}」の記事一覧{{ end }}です" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ if eq .Type "categories" }}カテゴリ「{{ .Data.Term }}」の記事一覧{{ else if eq .Type "tags" }}タグ「{{ .Data.Term }}」の記事一覧{{ end }}" />
+    <meta property="og:description" content="{{ if eq .Type "categories" }}カテゴリ「{{ .Data.Term }}」の記事一覧{{ else if eq .Type "tags" }}タグ「{{ .Data.Term }}」の記事一覧{{ end }}です" />
+    <meta property="og:site_name" content="{{ .Site.Title }}" />
+    <meta name="twitter:card" content="summary_large_image" />
+{{ end }}
+
+{{ define "barbaNamespace" }}{{ .Type }}-{{ .Data.Term }}{{ end }}
+
 {{ define "main" }}
 <div class="container mx-auto px-4 py-8">
     <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6">
         <div class="md:col-span-3 lg:col-span-3">
-            <div class="grid grid-cols-1 gap-6 bg-white shadow-md px-4 py-8 rounded-lg">
+            <div class="mb-8">
+                <div id="search" class="mt-4"></div>
+            </div>
+            <div class="grid grid-cols-1 gap-6 px-4 py-8 rounded-lg">
                 {{ $paginator := .Paginate (where .Pages "Type" "in" (slice "post" "page")) }}
                 {{ range $paginator.Pages }}
                 <div class="card bg-white rounded-lg shadow-md overflow-hidden transform transition-transform">
@@ -39,4 +63,18 @@
         </div>
     </div>
 </div>
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        new PagefindUI({
+            element: "#search",
+        showImages: false,
+        translations: {
+                clear_search: "消去",
+                zero_results: "[SEARCH_TERM]の検索結果はありません",
+                alt_search: "[SEARCH_TERM]の検索結果はありませんでした。[DIFFERENT_TERM]の検索結果を表示しています",
+                search_suggestion: "[SEARCH_TERM]の検索結果はありませんでした。次のいずれかの検索を試してください",
+            }
+        });
+    });
+</script>
 {{ end }}

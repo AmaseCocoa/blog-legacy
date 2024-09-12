@@ -1,12 +1,5 @@
 <aside class="w-full md:w-1/4 lg:w-3/4 bg-gray-100 p-4">
     <div class="bg-white rounded-lg shadow-md p-4 mb-4">
-        <h2 class="text-xl font-semibold mb-2">検索</h2>
-        <form action="/" method="get">
-            <input type="text" name="s" placeholder="検索..." class="w-full p-2 border rounded">
-        </form>
-    </div>
-
-    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
         <h2 class="text-xl font-semibold mb-2">最近の投稿</h2>
         <ul>
             {{ range first 5 .Site.RegularPages }}
