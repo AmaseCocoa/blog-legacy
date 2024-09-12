@@ -1,0 +1,197 @@
+{{ define "main" }}
+<div class="flex">
+  <div class="overflow-hidden flex-1 p-6">
+    <article class="bg-white rounded-lg shadow-md overflow-hidden p-6 flex-1">
+      <h1 class="text-2xl font-bold mb-4 text-center article-title">{{ .Title }}</h1>
+      {{ if .Params.image }}
+      <div id="gallery" class="mb-6">
+        <a href="{{ .Params.image }}" data-pswp-width="800" data-pswp-height="600">
+          <img src="{{ .Params.image }}" alt="{{ .Title }}" class="w-full h-auto object-cover">
+        </a>
+      </div>
+      {{ end }}
+      <div class="text-gray-500 text-right"><i class="ri-time-line mr-1"></i>{{ .Date.Format "2006/01/02 15:04" }} <i
+          class="ri-reset-right-line mr-1"></i>{{ .Lastmod.Format "2006/01/02 15:04" }}</div>
+      <br>
+      <div class="content">
+        {{ .Content }}
+      </div>
+      <div class="text-left mt-8">
+        {{ if .Params.categories }}
+        <div class="categories mb-2">
+          <span class="font-semibold"><i class="ri-book-shelf-line"></i> Categories: </span>
+          {{ range .Params.categories }}
+          <a href="/categories/{{ . | urlize }}" class="text-sm font-medium text-blue-600 hover:text-blue-800 m-1 px-2 py-1 bg-blue-100 rounded-lg">{{ . }}</a>{{ if not (eq (index
+          $.Params.categories (sub (len $.Params.categories) 1)) .) }}, {{ end }}
+          {{ end }}
+        </div>
+        {{ end }}
+
+        {{ if .Params.tags }}
+        <div class="tags">
+          <span class="font-semibold"><i class="ri-hashtag"></i> Tags: </span>
+          {{ range .Params.tags }}
+          <a href="/tags/{{ . | urlize }}" class="text-sm font-medium text-blue-600 hover:text-blue-800 m-1 px-2 py-1 bg-blue-100 rounded-lg"><i class="ri-hashtag"></i>{{ . }}</a>{{ if not (eq (index
+          $.Params.tags (sub (len $.Params.tags) 1)) .) }}, {{ end }}
+          {{ end }}
+        </div>
+        {{ end }}
+      </div>
+    </article>
+    <div class="sharebutton p-4 flex flex-col items-center bg-white rounded-lg shadow-md overflow-hidden mt-8">
+      {{ partial "share.html" . }}
+    </div>
+
+    {{ $related := .Site.RegularPages.Related . | first 9 }}
+    {{ if gt (len $related) 1 }}
+    <div class="bg-white rounded-lg shadow-md overflow-hidden p-6 mt-6">
+      <h2 class="text-center text-xl font-bold mb-2">関連記事</h2>
+      {{ with $related }}
+      <ul class="">
+        {{ range . }}
+        <li class="mb-4">
+          <a class="flex items-center space-x-4" href="{{ .RelPermalink }}">
+            {{ if .Params.image }}
+            <img src="{{ .Params.image }}" alt="{{ .Title }}" class="flex-shrink-0 w-16 h-16 object-cover rounded">
+            {{ end }}
+            <div>
+              <h3 class="text-xl font-bold">{{ .Title }}</h3>
+              <p class="text-sm">{{ .Summary | plainify }}</p>
+              <p class="text-xs text-gray-500 text-left">
+                <i class="ri-time-line mr-1"></i>{{ .Date.Format "2006/01/02 15:04" }} <i
+                  class="ri-reset-right-line mr-1"></i>{{ .Lastmod.Format "2006/01/02 15:04" }}
+              </p>
+            </div>
+          </a>
+        </li>
+        {{ end }}
+      </ul>
+      {{ end }}
+    </div>
+    {{ end }}
+
+    {{ if .Site.Params.enableGiscus }}
+    <div class="bg-white rounded-lg shadow-md p-4 mb-4 mt-6">
+      {{ if not false }} <!-- if not hugo.IsServer -->
+      <div class="giscus"></div>
+      <script src="https://giscus.app/client.js" data-repo="{{ .Site.Params.comment.repo }}"
+        data-repo-id="{{ .Site.Params.comment.repoId }}" data-category="{{ .Site.Params.comment.category }}"
+        data-category-id="{{ .Site.Params.comment.categoryId }}" data-mapping="title" data-strict="0"
+        data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light"
+        data-lang="{{ .Site.Params.comment.theme }}" data-loading="lazy" crossorigin="anonymous" async>
+        </script>
+      {{ else }}
+      <h3 class="text-center text-bold text-sm mt-4 mb-4">コメントは開発モード時には利用できません。</h3>
+      {{ end }}
+    </div>
+    {{ end }}
+  </div>
+
+  <aside class="ml-6 w-1/4">
+    {{ $authors := .Param "authors" }}
+    {{ if $authors }}
+    {{ $authorCount := len $authors }}
+
+    {{ if gt $authorCount 1 }}
+    <div class="flex space-x-4">
+      {{ range $index, $name := $authors }}
+      {{ $path := printf "/%s/%s" "authors" ($name | urlize) }}
+      {{ with $.Site.GetPage $path }}
+      <div class="flex items-center space-x-2">
+        {{ if .Params.avatar }}
+        <img src="{{ .Params.avatar }}" class="w-8 h-8 rounded-full">
+        {{ end }}
+        <span>{{ .Params.name }}</span>
+      </div>
+      {{ end }}
+      {{ end }}
+    </div>
+    {{ else }}
+    {{ range $authors }}
+    {{ $name := . }}
+    {{ $path := printf "/%s/%s" "authors" ($name | urlize) }}
+    {{ with $.Site.GetPage $path }}
+    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+      <div class="flex flex-col items-center">
+        {{ if .Params.avatar }}
+        <img src="{{ .Params.avatar }}" class="w-24 h-24 rounded-full mb-4">
+        {{ end }}
+        <h3 class="text-lg mb-2 font-bold"><a href="/authors#{{ .Params.name }}">{{ .Params.name }}</a></h3>
+        <p>{{ .Params.bio }}</p>
+        <div class="flex space-x-4">
+          {{ range .Params.links }}
+          <a href="{{ .url }}" aria-label="{{ .icon }}" class="text-2xl" target="_blank" rel="noopener noreferrer">
+            <i class="si si-{{ .icon }}"></i>
+          </a>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+    {{ end }}
+    {{ end }}
+    {{ end }}
+    {{ end }}
+
+    <div id="toc" class="toc bg-white rounded-lg shadow-md p-4 mb-4">
+      <h2 class="text-2xl font-bold mb-4">目次</h2>
+      <nav id="TableOfContents"></nav>
+    </div>
+    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+      <h2 class="text-xl font-semibold mb-2">カテゴリー</h2>
+      <ul>
+        {{ range .Site.Taxonomies.categories }}
+        <li class="mb-2">
+          <a href="{{ .Page.Permalink }}" class="hover:text-blue-500">{{ .Page.Title }} ({{ .Count }})</a>
+        </li>
+        {{ end }}
+      </ul>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg p-4 mt-8 mb-4">
+      <h2 class="text-xl font-semibold mb-4">タグ</h2>
+      <ul>
+        {{ $tags := .Site.Taxonomies.tags }}
+        {{ $sortedTags := slice }}
+        {{ range $key, $value := $tags }}
+        {{ $sortedTags = $sortedTags | append (dict "name" $key "count" $value.Count "pages" $value.Pages) }}
+        {{ end }}
+        {{ $sortedTags = sort $sortedTags "count" "desc" }}
+        {{ range $tag := $sortedTags }}
+        <li class="mb-2">
+          <a href="/tags/{{ $tag.name }}"
+            class="tag-cloud-item text-sm font-medium text-blue-600 hover:text-blue-800 m-1 px-2 py-1 bg-blue-100 rounded-lg">
+            {{ $tag.name }} ({{ $tag.count }})
+          </a>
+        </li>
+        {{ end }}
+      </ul>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+      <h2 class="text-xl font-semibold mb-2">アーカイブ</h2>
+      <ul>
+        {{ $currentMonth := "" }}
+        {{ range .Site.RegularPages.GroupByDate "2006-01" }}
+        <li class="mb-2">
+          <button class="archive-toggle w-full text-left py-2 px-4 font-semibold rounded-lg"
+            onclick="toggleArchive('{{ .Key }}')">
+            {{ .Key }} ({{ len .Pages }})
+          </button>
+          <ul id="archive-{{ .Key }}" class="archive-list hidden mt-2">
+            {{ range .Pages }}
+            <li class="mb-1">
+              <a href="{{ .Permalink }}" class="hover:text-blue-500">{{ .Title }}</a>
+            </li>
+            {{ end }}
+          </ul>
+        </li>
+        {{ end }}
+      </ul>
+    </div>
+  </aside>
+</div>
+
+<script src="/js/archive.js"></script>
+<link rel="stylesheet" href="/css/single.css">
+<script src="/js/toc.js"></script>
+{{ end }}

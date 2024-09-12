@@ -1,0 +1,49 @@
+<h1 class="text-center text-xl font-bold py-2">この記事を共有</h1>
+<ul class="custom-flex-container" style="list-style: none;">
+    <li>
+        <a class="bg-black text-white py-2 px-4 rounded-lg flex items-center space-x-2 hover:bg-gray-800 transition whitespace-nowrap"
+            href="http://x.com/intent/tweet?text={{ .Title | safeJS }}%20%7C%20{{ .Site.Title }}%20{{ .Permalink | safeJS }}%20%40{{ .Site.Params.twitter }}"
+            target="_blank" rel="noopener noreferrer">
+            <i class="si si-x"></i>
+            <span>Xで共有</span>
+        </a>
+    </li>
+    <li>
+        <a class="text-white py-2 px-4 rounded-lg flex items-center space-x-2 hover:opacity-80 transition whitespace-nowrap"
+            href="http://b.hatena.ne.jp/entry/{{ .Permalink | safeJS }}" style="background-color: #00A4DE;"
+            target="_blank" rel="noopener noreferrer">
+            <i class="si si-hatenabookmark"></i>
+            <span>はてなブックマークで共有</span>
+        </a>
+    </li>
+    <li>
+        <a class="text-white py-2 px-4 rounded-lg flex items-center space-x-2 hover:opacity-80 transition whitespace-nowrap"
+            href="https://misskey-hub.net/share?text={{ .Title }}%20{{ .Permalink | safeJS }}"
+            style="background-color: #A1CA03;" target="_blank" rel="noopener noreferrer">
+            <i class="si si-misskey"></i>
+            <span>Misskeyで共有</span>
+        </a>
+    </li>
+    <li>
+        <a class="text-white py-2 px-4 rounded-lg flex items-center space-x-2 hover:opacity-80 transition whitespace-nowrap"
+            href="https://mastodonshare.com/share?text={{ .Title }}%20{{ .Permalink | safeJS }}"
+            style="background-color: #6364FF;" target="_blank" rel="noopener noreferrer">
+            <i class="si si-mastodon"></i>
+            <span>Mastodonで共有</span>
+        </a>
+    </li>
+</ul>
+<style>
+    .custom-flex-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    @media (min-width: 768px) {
+        .custom-flex-container {
+            flex-direction: row;
+            gap: 1rem;
+        }
+    }
+</style>

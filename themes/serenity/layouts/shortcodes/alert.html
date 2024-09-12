@@ -1,0 +1,17 @@
+{{ $alertType := .Get 0 }}
+{{ $icon := (cond (eq $alertType "success") "ri-check-line" (cond (eq $alertType "warning") "ri-alert-line" (cond (eq
+$alertType "error") "ri-close-line" "ri-information-line"))) }}
+{{ $borderColor := (cond (eq $alertType "success") "border-green-600" (cond (eq $alertType "warning")
+"border-yellow-600" (cond (eq $alertType "error") "border-red-600" "border-blue-600"))) }}
+{{ $textColor := (cond (eq $alertType "success") "text-green-800" (cond (eq $alertType "warning") "text-yellow-800"
+(cond (eq $alertType "error") "text-red-800" "text-blue-800"))) }}
+
+<blockquote class="pl-4 pr-2 py-2 mb-4 border-l-4 {{ $borderColor }} {{ $textColor }}">
+    <div class="flex items-center">
+        <i class="{{ $icon }} mr-2"></i>
+        <strong>{{ .Get 1 | default (title $alertType) }}</strong>
+    </div>
+    <div class="mt-2">
+        {{ .Inner }}
+    </div>
+</blockquote>

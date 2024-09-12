@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Title }} - {{ .Site.Title }}</title>
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/custom.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/tailwind.css">
+    <link rel="stylesheet" href="/webpack/icons.css">
+</head>
+
+<body class="bg-gray-100 text-gray-900" data-barba="wrapper">
+    {{ partial "header.html" . }}
+    <main class="container mx-auto px-4 py-8" data-barba="container" data-barba-namespace="{{ block " barbaNamespace" .
+        }}{{ with .Params.slug }}{{ . | urlize }}{{ else }}{{ .Title | urlize }}{{ end }}{{ end }}">
+        {{ block "main" . }}{{ end }}
+    </main>
+    {{ partial "footer.html" . }}
+    <script src="/webpack/pjax.bundle.js"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+    </style>
+</body>
+
+</html>

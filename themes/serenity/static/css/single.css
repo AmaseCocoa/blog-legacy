@@ -1,0 +1,112 @@
+.toc {
+  position: sticky;
+  top: 20px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
+
+.toc .toc-h1 {
+  font-size: 24px;
+}
+
+.toc .toc-h2 {
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.toc .toc-h3 {
+  font-size: 16px;
+  margin-left: 20px;
+}
+
+article a {
+  color: #0000EE;
+}
+
+article a:visited {
+  color: #551A8B;
+}
+
+pre code {
+  overflow-x: scroll;
+}
+
+.article-title,
+.related-article__title {
+  border-left: 0px;
+  padding-left: 0px;
+}
+
+.sharebutton {
+  list-style: none;
+}
+
+.sharebutton h1,
+.sharebutton h2,
+.sharebutton h3,
+.sharebutton h4,
+.sharebutton h5,
+.sharebutton h6 {
+  border-left: 0px;
+  padding-left: 0px;
+}
+
+.sharebutton a {
+  color: #fff;
+}
+
+.sharebutton a:visited {
+  color: #fff;
+}
+
+article h1,
+article h2,
+article h3,
+article h4,
+article h5,
+article h6 {
+  font-size: 2em;
+  border-left: 3px solid rgb(89, 165, 201);
+  padding-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+article ul {
+  list-style: disc;
+  padding-left: 20px;
+  list-style-position: outside;
+}
+
+article ol {
+  list-style: decimal;
+  padding-left: 20px;
+  list-style-position: outside;
+}
+
+article li {
+  margin-bottom: 10px;
+}
+
+aside {
+  @media (max-width : 500px) {
+    display: none;
+  }
+}
+
+blockquote {
+  font-weight: 500;
+  font-style: italic;
+  color: #4a5568;
+  border-left: 0.25rem solid #cbd5e0;
+  padding-left: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+blockquote p::before {
+  content: open-quote;
+}
+
+blockquote p::after {
+  content: close-quote;
+}

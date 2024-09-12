@@ -1,0 +1,90 @@
+<aside class="w-full md:w-1/4 lg:w-3/4 bg-gray-100 p-4">
+    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+        <h2 class="text-xl font-semibold mb-2">検索</h2>
+        <form action="/" method="get">
+            <input type="text" name="s" placeholder="検索..." class="w-full p-2 border rounded">
+        </form>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+        <h2 class="text-xl font-semibold mb-2">最近の投稿</h2>
+        <ul>
+            {{ range first 5 .Site.RegularPages }}
+            <li class="mb-2">
+                <a href="{{ .Permalink }}" class="hover:text-blue-500">{{ .Title }}</a>
+            </li>
+            {{ end }}
+        </ul>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+        <h2 class="text-xl font-semibold mb-2">カテゴリー</h2>
+        <ul>
+            {{ range .Site.Taxonomies.categories }}
+            <li class="mb-2">
+                <a href="{{ .Page.Permalink }}" class="hover:text-blue-500">{{ .Page.Title }} ({{ .Count }})</a>
+            </li>
+            {{ end }}
+        </ul>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg p-4 mt-8 mb-4">
+        <h2 class="text-xl font-semibold mb-4">タグ</h2>
+        <ul>
+            {{ $tags := .Site.Taxonomies.tags }}
+            {{ $sortedTags := slice }}
+            {{ range $key, $value := $tags }}
+            {{ $sortedTags = $sortedTags | append (dict "name" $key "count" $value.Count "pages" $value.Pages) }}
+            {{ end }}
+            {{ $sortedTags = sort $sortedTags "count" "desc" }}
+            {{ range $tag := $sortedTags }}
+            <li class="mb-2">
+                <a href="/tags/{{ $tag.name }}" class="tag-cloud-item text-sm font-medium text-blue-600 hover:text-blue-800 m-1 px-2 py-1 bg-blue-100 rounded-lg">
+                    {{ $tag.name }} ({{ $tag.count }})
+                </a>
+            </li>
+            {{ end }}
+        </ul>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+        <h2 class="text-xl font-semibold mb-2">アーカイブ</h2>
+        <ul>
+            {{ $currentMonth := "" }}
+            {{ range .Site.RegularPages.GroupByDate "2006-01" }}
+            <li class="mb-2">
+                <button
+                    class="archive-toggle w-full text-left py-2 px-4 font-semibold rounded-lg"
+                    onclick="toggleArchive('{{ .Key }}')">
+                    {{ .Key }} ({{ len .Pages }})
+                </button>
+                <ul id="archive-{{ .Key }}" class="archive-list hidden mt-2">
+                    {{ range .Pages }}
+                    <li class="mb-1">
+                        <a href="{{ .Permalink }}" class="hover:text-blue-500">{{ .Title }}</a>
+                    </li>
+                    {{ end }}
+                </ul>
+            </li>
+            {{ end }}
+        </ul>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+        <h2 class="text-xl font-semibold mb-2">Pages</h2>
+        <ul class="flex space-x-4">
+            {{ range .Site.Pages }}
+                {{ if not .Params.draft }}
+                    {{ if eq .Type "page" }}
+                        <li>
+                            <a href="{{ .RelPermalink }}" class="text-lg">{{ .Title }}</a>
+                        </li>
+                    {{ end }}
+                {{ end }}
+            {{ end }}
+        </ul>
+    </div>
+
+</aside>
+
+<script src="/js/archive.js"></script>

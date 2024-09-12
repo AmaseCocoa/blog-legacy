@@ -1,0 +1,41 @@
+{{ define "main" }}
+<div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6">
+        <!-- メインコンテンツ -->
+        <div class="md:col-span-3 lg:col-span-3">
+            <h1 class="text-2xl font-bold mb-4">a</h1>
+            <div class="grid grid-cols-1 gap-6 bg-white shadow-md px-4 py-8 rounded-lg">
+                {{ $category := .Title }}
+                {{ range where .Site.RegularPages "Params.categories" "intersect" (slice $category) }}
+                <div class="card bg-white rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105">
+                    {{ if .Params.image }}
+                    <img src="{{ .Params.image }}" alt="{{ .Title }}" class="w-full h-48 object-cover">
+                    {{ end }}
+                    <div class="p-4">
+                        <h2 class="text-xl font-semibold mb-2">
+                            <a href="{{ .Permalink }}" class="hover:text-blue-500">{{ .Title }}</a>
+                        </h2>
+                        <p class="text-gray-700 mt-4">{{ .Summary }}...</p>
+                        <div class="text-left mt-8 mr-8 ml-8">
+                            {{ if .Params.categories }}
+                            <div class="categories">
+                                {{ range (.GetTerms "categories") }}
+                                <a href="{{ .RelPermalink }}"
+                                    class="text-sm font-medium text-blue-600 hover:text-blue-800 m-1 px-2 py-1 bg-blue-100 rounded-lg">{{ .LinkTitle }}</a>
+                                {{ end }}
+                            </div>
+                            {{ end }}
+                        </div>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+        </div>
+
+        <!-- サイドバー -->
+        <div class="md:col-span-1 lg:col-span-1">
+            {{ partial "sidebar.html" . }}
+        </div>
+    </div>
+</div>
+{{ end }}

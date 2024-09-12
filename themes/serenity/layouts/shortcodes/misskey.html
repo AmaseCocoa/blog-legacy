@@ -1,0 +1,10 @@
+{{ $id := .Get "id" }}
+{{ $instance := .Get "instance" }}
+{{ $type := .Get "type" }}
+
+{{ if eq $type "note" }}
+<iframe src="https://{{ $instance }}/embed/notes/{{ $id }}" data-misskey-embed-id="v1_{{ $id | sha1 }}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" style="border: none; width: 100%; max-width: 500px; height: 300px; color-scheme: light dark;" class="mt-2 mb-2"></iframe>
+{{ else if eq $type "timeline" }}
+<iframe src="https://{{ $instance }}/embed/user-timeline/{{ $id }}?maxHeight=700" data-misskey-embed-id="v1_{{ $id | sha1 }}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" style="border: none; width: 100%; max-width: 500px; height: 300px; color-scheme: light dark;" class="mt-2 mb-2"></iframe>
+{{ end }}
+<script defer src="https://{{ $instance }}/embed.js"></script>

@@ -1,0 +1,52 @@
+locale: "ja"
+local_backend: true
+
+backend:
+  name: git-gateway
+  branch: main
+
+collections:
+  - name: "post"
+    label: "Post"
+    folder: "content/posts"
+    create: true
+    slug: "{{fields.filename}}"
+    preview_path: "posts/{{slug}}"
+    type: "post"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - {
+          label: "File Name",
+          name: "filename",
+          widget: "datetime",
+          date_format: "YYYY-MM-DD",
+          time_format: false,
+          format: "YYYY-MM-DD",
+          hint: "作成されるファイル名と記事のURLで使用されます。新規作成時のみ有効な設定です。",
+        }
+      - {
+          label: "Publish Date",
+          name: "date",
+          widget: "datetime",
+          date_format: "YYYY-MM-DD",
+          time_format: "HH:mm:ss+09:00",
+          format: "YYYY-MM-DDTHH:mm:ss+09:00",
+          hint: "公開日の設定です。未来の時刻では公開されません。",
+        }
+      - {
+          label: "Draft",
+          name: "draft",
+          widget: "boolean",
+          default: true,
+          hint: "下書きとして保存するかどうかを設定します。",
+        }
+      - {
+          label: "Tags",
+          name: "tags",
+          widget: "list",
+          hint: "タグはカンマ区切りで指定します。",
+        }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+media_folder: "static/uploads"
+public_folder: "/uploads"

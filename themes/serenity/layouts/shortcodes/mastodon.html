@@ -1,0 +1,6 @@
+{{ $toot := .Get "toot" }}
+{{ $instance := .Get "instance" }}
+
+<iframe src="{{ $toot }}/embed" class="mastodon-embed mt-2 mb-2" referrerpolicy="strict-origin-when-cross-origin"
+    style="max-width: 100%; border: 0" width="400" allowfullscreen="allowfullscreen"></iframe>
+<script src="https://{{ $instance }}/embed.js" async="async"></script>

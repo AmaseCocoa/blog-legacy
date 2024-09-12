@@ -1,0 +1,36 @@
+baseURL = 'https://blog.amase.xyz/'
+languageCode = 'ja'
+title = 'ここあのひとりごと'
+hasCJKLanguage = true
+theme = 'serenity'
+pygmentsUseClasses = true
+pygmentsCodefences = true
+
+[markup]
+    [markup.highlight]
+    noClasses = false
+    style = "onedark"
+    lineNos = true
+    lineNumbersInTable = true
+    guessSyntax = true
+
+[taxonomies]
+    tag = "tags"
+    category = "categories"
+    author = "authors"
+
+[params]
+    enableGiscus = true
+
+#[params.comment.giscus_api]
+#    repo = ""
+#    repoId = ""
+#    category = ""
+#    categoryId = ""
+
+[params.comment]
+    repo = ""
+    repoId = ""
+    category = ""
+    categoryId = ""
+    lang = "ja"
