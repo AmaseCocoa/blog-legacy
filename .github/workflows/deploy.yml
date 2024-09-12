@@ -22,11 +22,12 @@ jobs:
           hugo-version: '0.134.2'
 
       - name: Build
-        run: hugo --minify
-
-      - run: |
+        run: |
+          hugo
           npx pagefind@latest --site public --glob="{posts}/*/*.html" --output-path="static/pagefind"
-          npx netlify-cli deploy --dir=./public
+          hugo --minify
+
+      - run: npx netlify-cli deploy --dir=./public
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
