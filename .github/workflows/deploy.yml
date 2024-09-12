@@ -26,7 +26,7 @@ jobs:
           hugo --minify
           npx pagefind@latest --site public --glob="{posts}/*/*.html" --output-path="public/pagefind"
 
-      - run: npx netlify-cli deploy --dir=./public
+      - run: npx netlify-cli deploy --dir=./public --prod
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
