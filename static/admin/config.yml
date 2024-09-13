@@ -60,7 +60,8 @@ collections:
     label: "Authors"
     folder: "content/authors"
     create: true
-    nested: true
+    nested:
+      depth: 1
     slug: "{{slug}}/_index"
     fields:
       - {label: "Name", name: "name", widget: "string"}
