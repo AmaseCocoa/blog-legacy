@@ -46,6 +46,7 @@ collections:
           widget: "list",
           hint: "タグはカンマ区切りで指定します。",
         }
+      - {label: "Categories", name: "categories", widget: "list", hint: "カテゴリはカンマ区切りで指定します。"}
       - { label: "Body", name: "body", widget: "markdown" }
 
 media_folder: "static/uploads"
