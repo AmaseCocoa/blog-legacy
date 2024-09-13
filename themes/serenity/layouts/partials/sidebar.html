@@ -2,7 +2,7 @@
     <div class="bg-white rounded-lg shadow-md p-4 mb-4">
         <h2 class="text-xl font-semibold mb-2">最近の投稿</h2>
         <ul>
-            {{ range first 5 .Site.RegularPages }}
+            {{ range first 5 (where .Site.RegularPages "Type" "post") }}
             <li class="mb-2">
                 <a href="{{ .Permalink }}" class="hover:text-blue-500">{{ .Title }}</a>
             </li>
@@ -43,8 +43,7 @@
     <div class="bg-white rounded-lg shadow-md p-4 mb-4">
         <h2 class="text-xl font-semibold mb-2">アーカイブ</h2>
         <ul>
-            {{ $currentMonth := "" }}
-            {{ range .Site.RegularPages.GroupByDate "2006-01" }}
+            {{ range (where .Site.RegularPages "Type" "post").GroupByDate "2006-01" }}
             <li class="mb-2">
                 <button
                     class="archive-toggle w-full text-left py-2 px-4 font-semibold rounded-lg"
