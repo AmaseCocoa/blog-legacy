@@ -54,9 +54,7 @@ collections:
     label: "Authors"
     folder: "content/authors"
     create: true
-    nested:
-      depth: 1
-    slug: "{{fields.slug}}/_index"
+    slug: "{{fields.slug}}"
     fields:
       - {label: "Slug", name: "slug", widget: "string", hint: "英字である必要があります。"}
       - {label: "Name", name: "name", widget: "string"}
