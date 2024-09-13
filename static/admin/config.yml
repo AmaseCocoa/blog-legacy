@@ -53,6 +53,7 @@ collections:
   - name: "categories"
     label: "Categories"
     folder: "content/categories"
+    slug: "{{fields.name}}/_index"
     create: true
     fields:
       - {label: "Title", name: "title", widget: "string"}
