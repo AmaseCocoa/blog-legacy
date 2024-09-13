@@ -62,7 +62,7 @@ collections:
     create: true
     nested:
       depth: 1
-    slug: "{{slug}}/_index"
+    slug: "{{fields.name}}/_index"
     fields:
       - {label: "Name", name: "name", widget: "string"}
       - {label: "Bio", name: "bio", widget: "text"}
