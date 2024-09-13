@@ -47,7 +47,7 @@ collections:
           widget: "list",
           hint: "タグはカンマ区切りで指定します。",
         }
-      - {label: "Category", name: "category", widget: "relation", collection: "categories", searchFields: ["title"], valueField: "title"}
+      - {label: "Category", name: "category", widget: "list", hint: "カテゴリーはカンマ区切りで指定します。",}
       - {label: "Author", name: "author", widget: "relation", collection: "authors", searchFields: ["name"], valueField: "name"}
       - { label: "Body", name: "body", widget: "markdown" }
   - name: "categories"
