@@ -65,6 +65,7 @@ collections:
       depth: 1
     slug: "{{fields.name}}/_index"
     fields:
+      - {label: "Slug", name: "slug", widget: "string", hint: "英字である必要があります。"}
       - {label: "Name", name: "name", widget: "string"}
       - {label: "Bio", name: "bio", widget: "text"}
       - {label: "Avatar", name: "avatar", widget: "string"}
