@@ -29,7 +29,7 @@
             {{ range $key, $value := $tags }}
             {{ $sortedTags = $sortedTags | append (dict "name" $key "count" $value.Count "pages" $value.Pages) }}
             {{ end }}
-            {{ $sortedTags = sort $sortedTags "count" "desc" }}
+            {{ $sortedTags = first 5 (sort $sortedTags "count" "desc") }}
             {{ range $tag := $sortedTags }}
             <li class="mb-2">
                 <a href="/tags/{{ $tag.name }}" class="tag-cloud-item text-sm font-medium text-blue-600 hover:text-blue-800 m-1 px-2 py-1 bg-blue-100 rounded-lg">

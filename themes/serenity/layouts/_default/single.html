@@ -46,7 +46,7 @@
                     <a href="/categories/{{ . | urlize }}"
                         class="text-sm font-medium text-blue-600 hover:text-blue-800 m-1 px-2 py-1 bg-blue-100 rounded-lg">{{
                         . }}</a>{{ if not (eq (index
-                    $.Params.categories (sub (len $.Params.categories) 1)) .) }}, {{ end }}
+                    $.Params.categories (sub (len $.Params.categories) 1)) .) }} {{ end }}
                     {{ end }}
                 </div>
                 {{ end }}
@@ -58,7 +58,7 @@
                     <a href="/tags/{{ . | urlize }}"
                         class="text-sm font-medium text-blue-600 hover:text-blue-800 m-1 px-2 py-1 bg-blue-100 rounded-lg"><i
                             class="ri-hashtag"></i>{{ . }}</a>{{ if not (eq (index
-                    $.Params.tags (sub (len $.Params.tags) 1)) .) }}, {{ end }}
+                    $.Params.tags (sub (len $.Params.tags) 1)) .) }} {{ end }}
                     {{ end }}
                 </div>
                 {{ end }}
@@ -100,7 +100,7 @@
 
         {{ if .Site.Params.enableGiscus }}
         <div class="bg-white rounded-lg shadow-md p-4 mb-4 mt-6" data-pagefind-ignore>
-            {{ if not false }} <!-- if not hugo.IsServer -->
+            {{ if not hugo.IsServer }} <!-- if not false -->
             <div class="giscus"></div>
             <script src="https://giscus.app/client.js" data-repo="{{ .Site.Params.comment.repo }}"
                 data-repo-id="{{ .Site.Params.comment.repoId }}" data-category="{{ .Site.Params.comment.category }}"
@@ -182,16 +182,17 @@
                 {{ $tags := .Site.Taxonomies.tags }}
                 {{ $sortedTags := slice }}
                 {{ range $key, $value := $tags }}
-                {{ $sortedTags = $sortedTags | append (dict "name" $key "count" $value.Count "pages" $value.Pages) }}
+                    {{ $sortedTags = $sortedTags | append (dict "name" $key "count" $value.Count) }}
                 {{ end }}
                 {{ $sortedTags = sort $sortedTags "count" "desc" }}
-                {{ range $tag := $sortedTags }}
-                <li class="mb-2">
-                    <a href="/tags/{{ $tag.name }}"
-                        class="tag-cloud-item text-sm font-medium text-blue-600 hover:text-blue-800 m-1 px-2 py-1 bg-blue-100 rounded-lg">
-                        {{ $tag.name }} ({{ $tag.count }})
-                    </a>
-                </li>
+                {{ range $index, $tag := $sortedTags }}
+                    {{ if lt $index 5 }}
+                        <li class="mb-2">
+                            <a href="/tags/{{ $tag.name }}" class="tag-cloud-item text-sm font-medium text-blue-600 hover:text-blue-800 m-1 px-2 py-1 bg-blue-100 rounded-lg">
+                                {{ $tag.name }} ({{ $tag.count }})
+                            </a>
+                        </li>
+                    {{ end }}
                 {{ end }}
             </ul>
         </div>
