@@ -110,3 +110,13 @@ blockquote p::before {
 blockquote p::after {
   content: close-quote;
 }
+
+article p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.pswp-gallery {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
