@@ -5,7 +5,7 @@
   "scripts": {
     "dev-server": "webpack serve --mode development",
     "build:dev": "webpack --mode development",
-    "build:prod": "webpack build --mode production && tailwindcss build -o ./static/css/tailwind.css",
+    "build:prod": "webpack build --mode production && npm run tailwind:build",
     "tailwind:build": "tailwindcss build -o ./static/css/tailwind.css"
   },
   "keywords": [],

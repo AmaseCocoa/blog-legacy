@@ -1,5 +1,4 @@
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
-import 'photoswipe/photoswipe.css';
 
 import 'photoswipe-dynamic-caption-plugin/photoswipe-dynamic-caption-plugin.css';
 import PhotoSwipeDynamicCaption from 'photoswipe-dynamic-caption-plugin';

@@ -11,7 +11,8 @@ module.exports = {
     ],
     entry: {
         icons: './src/icons.js',
-        pjax: './src/pjax.js'
+        pjax: './src/pjax.js',
+        styles: './src/css.js'
     },
     output: {
         path: path.resolve(__dirname, 'static', 'webpack'),
